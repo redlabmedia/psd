@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo> 
+    <record model="ir.ui.view" id="view_product_product_extended_for_multi_branch">
+        <field name="name">product.product.for.operating.branch.view</field>
+        <field name="model">product.product</field>
+        <field name="inherit_id" ref="product.product_normal_form_view"/>
+        <field name="arch" type="xml">
+            
+            <xpath expr="//field[@name='default_code']" position="after">
+                <field name="operating_branch_id" groups="multi_branches_cft.group_multi_branch"/>
+            </xpath>
+            
+        </field>
+    </record>
+    <record model="ir.ui.view" id="view_product_template_extended_for_multi_branch">
+        <field name="name">product.template.for.operating.branch.view</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_only_form_view"/>
+        <field name="arch" type="xml">
+            
+            <xpath expr="//field[@name='default_code']" position="after">
+                <field name="operating_branch_id" groups="multi_branches_cft.group_multi_branch"/>
+            </xpath>
+            
+        </field>
+    </record> 
+    <record id="search_view_product_template_for_operating_branch" model="ir.ui.view">
+        <field name="name">product Branch Search</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_search_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='name']" position="after">
+                <separator/>
+                <field name="operating_branch_id"/> 
+                <filter name="operating_branch_id" string="Branch is set" domain="[('operating_branch_id','!=',False)]"/>
+                <filter name="operating_branch_id" string="Branch isn't set" domain="[('operating_branch_id','=',False)]"/>
+                <!--<group expand="0" string="Group By...">
+                    <filter name="operating_branch_id" string="Branch" context="{'group_by':'operating_branch_id'}"/>
+                </group>-->
+
+            </xpath>
+        </field>
+    </record>
+    <record id="search_view_product_product_for_operating_branch" model="ir.ui.view">
+        <field name="name">product Branch Search</field>
+        <field name="model">product.product</field>
+        <field name="inherit_id" ref="product.product_search_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='name']" position="after">
+                <separator/>
+                <field name="operating_branch_id"/> 
+                <filter name="operating_branch_id" string="Branch is set" domain="[('operating_branch_id','!=',False)]"/>
+                <filter name="operating_branch_id" string="Branch isn't set" domain="[('operating_branch_id','=',False)]"/>
+                <!-- <group expand="0" string="Group By...">
+                    <filter name="operating_branch_id" string="Branch" context="{'group_by':'operating_branch_id'}"/>
+                </group> -->
+            </xpath>
+        </field>
+    </record>
+    <record id="view_product_template_tree_view_extended_for_operating_branch" model="ir.ui.view">
+        <field name="name">product.template.tree</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_tree_view"/>
+        <field name="arch" type="xml">
+            <field name="active" position="after">
+                <field name="operating_branch_id" groups="multi_branches_cft.group_multi_branch"/>
+            </field>
+        </field>
+    </record>
+    <record id="view_product_product_tree_view_extended_for_operating_branch" model="ir.ui.view">
+        <field name="name">product.product.tree</field>
+        <field name="model">product.product</field>
+        <field name="inherit_id" ref="product.product_product_tree_view"/>
+        <field name="arch" type="xml">
+            <field name="active" position="after">
+                <field name="operating_branch_id" groups="multi_branches_cft.group_multi_branch"/>
+            </field>
+        </field>
+    </record>
+</odoo>

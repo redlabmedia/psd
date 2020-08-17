@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo> 
+    
+    <record model="ir.ui.view" id="view_res_users_extended_for_multi_branch">
+        <field name="name">res.users.for.operating.branch.view</field>
+        <field name="model">res.users</field>
+        <field name="inherit_id" ref="base.view_users_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='access_rights']/group" position="after">
+                <group string="Multi Branches" attrs="{'invisible': [('branches_count', '&lt;=', 1)]}">
+                    <field string="Allowed Branches" name="operating_branch_ids" widget="many2many_tags" options="{'no_create': True}"/>
+                    <field string="Current Branches" name="operating_branch_id" context="{'user_preference': 0}"/>
+                    <field string="Branches count" name="branches_count" invisible="1"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+    <record id="search_view_res_users_for_operating_branch" model="ir.ui.view">
+        <field name="name">User Branch Search</field>
+        <field name="model">res.users</field>
+        <field name="inherit_id" ref="base.view_users_search"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='name']" position="after">
+                <separator/>
+                <field name="operating_branch_id"/> 
+                <filter name="operating_branch_id" string="Branch is set" domain="[('operating_branch_id','!=',False)]"/>
+                <filter name="operating_branch_id" string="Branch isn't set" domain="[('operating_branch_id','=',False)]"/>
+                 <group expand="0" string="Group By...">
+                    <filter name="operating_branch_id" string="Branch" context="{'group_by':'operating_branch_id'}"/>
+                </group>
+            </xpath>            
+        </field>
+    </record>
+    <record id="view_sale_order_tree_view_extended_for_operating_branch" model="ir.ui.view">
+        <field name="name">users.tree</field>
+        <field name="model">res.users</field>
+        <field name="inherit_id" ref="base.view_users_tree"/>
+        <field name="arch" type="xml">
+            <field name="login_date" position="after">
+                <field name="operating_branch_id" groups="multi_branches_cft.group_multi_branch"/>
+            </field>
+        </field>
+    </record>
+</odoo>

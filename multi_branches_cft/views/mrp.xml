@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    
+    <record model="ir.ui.view" id="view_manufacturing_order_extended_for_multi_branch">
+        <field name="name">mrp.production.for.operating.branch.view</field>
+        <field name="model">mrp.production</field>
+        <field name="inherit_id" ref="mrp.mrp_production_form_view"/>
+        <field name="arch" type="xml">
+            
+            <xpath expr="//field[@name='bom_id']" position="after">
+                <field name="operating_branch_id" groups="multi_branches_cft.group_multi_branch"/>
+            </xpath>
+            
+        </field>
+    </record>
+    <record id="search_view_manufacturing_order_for_operating_branch" model="ir.ui.view">
+        <field name="name">mrp Branch Search</field>
+        <field name="model">mrp.production</field>
+        <field name="inherit_id" ref="mrp.view_mrp_production_filter"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='name']" position="after">
+                <separator/>
+                <field name="operating_branch_id"/> 
+                <filter name="operating_branch_id" string="Branch is set" domain="[('operating_branch_id','!=',False)]"/>
+                <filter name="operating_branch_id" string="Branch isn't set" domain="[('operating_branch_id','=',False)]"/>
+            </xpath>
+            <xpath expr="//filter[@name='status']" position="after">
+                    <filter name="operating_branch_id" string="Branch" context="{'group_by':'operating_branch_id'}"/>
+            </xpath>
+        </field>
+    </record>
+    <record id="view_mrp_production_tree_view_extended_for_operating_branch" model="ir.ui.view">
+        <field name="name">mrp.order.tree</field>
+        <field name="model">mrp.production</field>
+        <field name="inherit_id" ref="mrp.mrp_production_tree_view"/>
+        <field name="arch" type="xml">
+            <field name="state" position="after">
+                <field name="operating_branch_id" groups="multi_branches_cft.group_multi_branch"/>
+            </field>
+        </field>
+    </record>
+</odoo>

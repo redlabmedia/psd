@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+   
+    <record model="ir.ui.view" id="view_hr_employee_extended_for_multi_branch">
+        <field name="name">hr.employee.for.operating.branch.view</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_form"/>
+        <field name="arch" type="xml">
+            
+            <xpath expr="//field[@name='work_phone']" position="after">
+                <field name="operating_branch_id" groups="multi_branches_cft.group_multi_branch"/>
+            </xpath>
+            
+        </field>
+    </record>
+
+    <record id="search_view_employee_for_operating_branch" model="ir.ui.view">
+        <field name="name">Operating Branch Search</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_filter"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='department_id']" position="after"> 
+                
+                <field name="operating_branch_id"/> 
+            </xpath>
+            <xpath expr="//filter[@name='activities_upcoming_all']" position="after"> 
+                <separator/>
+                <filter name="operating_branch_id" string="Branch is set" domain="[('operating_branch_id','!=',False)]"/>
+                <filter name="operating_branch_id" string="Branch isn't set" domain="[('operating_branch_id','=',False)]"/>
+            </xpath>
+            <xpath expr="//filter[@name='group_job']" position="after">
+                <filter name="operating_branch_id" string="Branch" context="{'group_by':'operating_branch_id'}"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_hr_employee_tree_view_extended_for_operating_branch" model="ir.ui.view">
+        <field name="name">employee.tree</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_tree"/>
+        <field name="arch" type="xml">
+            <field name="parent_id" position="after">
+                <field name="operating_branch_id" groups="multi_branches_cft.group_multi_branch"/>
+            </field>
+        </field>
+    </record>
+</odoo>

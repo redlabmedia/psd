@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo> 
+    <record model="ir.ui.view" id="view_res_partner_extended_for_multi_branch">
+        <field name="name">res.partner.for.operating.branch.view</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            
+            <xpath expr="//field[@name='vat']" position="after">
+                <field name="operating_branch_id" groups="multi_branches_cft.group_multi_branch"/>
+            </xpath>
+            
+        </field>
+    </record>
+    <record id="search_view_res_partner_for_operating_branch" model="ir.ui.view">
+        <field name="name">res.partner Branch Search</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_res_partner_filter"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='name']" position="after">
+                <separator/>
+                <field name="operating_branch_id"/> 
+                <filter name="operating_branch_id" string="Branch is set" domain="[('operating_branch_id','!=',False)]"/>
+                <filter name="operating_branch_id" string="Branch isn't set" domain="[('operating_branch_id','=',False)]"/>
+            </xpath>
+            <xpath expr="//filter[@name='salesperson']" position="after">
+                    <filter name="operating_branch_id" string="Branch" context="{'group_by':'operating_branch_id'}"/>
+            </xpath>
+        </field>
+    </record>
+    <record id="view_res_partner_tree_view_extended_for_operating_branch" model="ir.ui.view">
+        <field name="name">partner.tree</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_tree"/>
+        <field name="arch" type="xml">
+            <field name="active" position="after">
+                <field name="operating_branch_id" groups="multi_branches_cft.group_multi_branch"/>
+            </field>
+        </field>
+    </record>
+</odoo>

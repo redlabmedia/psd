@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo> 
+    <!--form view-->
+    <record model="ir.ui.view" id="view_project_task_extended_for_multi_branch">
+        <field name="name">project.project.for.operating.branch.view</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="project.view_task_form2"/>
+        <field name="arch" type="xml">
+            
+            <xpath expr="//field[@name='date_last_stage_update']" position="after">
+                <separator string="Operating Branch" groups="multi_branches_cft.group_multi_branch"/>
+                <field name="operating_branch_id" groups="multi_branches_cft.group_multi_branch"/>
+            </xpath>
+            
+        </field>
+    </record>
+    <record model="ir.ui.view" id="view_project_project_extended_for_multi_branch">
+        <field name="name">project.project.for.operating.branch.view</field>
+        <field name="model">project.project</field>
+        <field name="inherit_id" ref="project.edit_project"/>
+        <field name="arch" type="xml">
+            
+            <xpath expr="//field[@name='partner_id']" position="after">
+                <field name="operating_branch_id" groups="multi_branches_cft.group_multi_branch"/>
+            </xpath>
+            
+        </field>
+    </record> 
+    <!--search view-->
+    <record id="search_view_project_template_for_operating_branch" model="ir.ui.view">
+        <field name="name">project Branch Search</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="project.view_project_project_filter"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='name']" position="after">
+                <separator/>
+                <field name="operating_branch_id"/> 
+                <filter name="operating_branch_id" string="Branch is set" domain="[('operating_branch_id','!=',False)]"/>
+                <filter name="operating_branch_id" string="Branch isn't set" domain="[('operating_branch_id','=',False)]"/>
+                <filter name="operating_branch_id" string="Branch" context="{'group_by':'operating_branch_id'}"/>
+            </xpath>
+        </field>
+    </record>
+    <record id="search_view_project_task_for_operating_branch" model="ir.ui.view">
+        <field name="name">project Branch Search</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="project.view_task_search_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='name']" position="after">
+                <separator/>
+                <field name="operating_branch_id"/> 
+                <filter name="operating_branch_id" string="Branch is set" domain="[('operating_branch_id','!=',False)]"/>
+                <filter name="operating_branch_id" string="Branch isn't set" domain="[('operating_branch_id','=',False)]"/>
+                <filter name="operating_branch_id" string="Branch" context="{'group_by':'operating_branch_id'}"/>
+            </xpath>
+        </field>
+    </record>
+    <!--tree view-->
+    <record id="view_project_project_tree_view_extended_for_operating_branch" model="ir.ui.view">
+        <field name="name">project.task.tree</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="project.view_task_tree2"/>
+        <field name="arch" type="xml">
+            <field name="company_id" position="after">
+                <field name="operating_branch_id" groups="multi_branches_cft.group_multi_branch"/>
+            </field>
+        </field>
+    </record>
+    <!-- <record id="view_project_project_tree_view_extended_for_operating_branch" model="ir.ui.view">
+        <field name="name">project.project.tree</field>
+        <field name="model">project.project</field>
+        <field name="inherit_id" ref="project.project_project_tree_view"/>
+        <field name="arch" type="xml">
+            <field name="company_id" position="after">
+                <field name="operating_branch_id" groups="multi_branches_cft.group_multi_branch"/>
+            </field>
+        </field>
+    </record> -->
+</odoo>

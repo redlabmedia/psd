@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo> 
+    <record model="ir.ui.view" id="view_stock_warehouse_extended_for_multi_branch">
+        <field name="name">stock.warehouse.for.operating.branch.view</field>
+        <field name="model">stock.warehouse</field>
+        <field name="inherit_id" ref="stock.view_warehouse"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='code']" position="after">
+                <field name="operating_branch_id" groups="multi_branches_cft.group_multi_branch"/>
+            </xpath>
+            
+        </field>
+    </record>
+    <record id="search_view_stock_warehouse_for_operating_branch" model="ir.ui.view">
+        <field name="name">warehouse Branch Search</field>
+        <field name="model">stock.warehouse</field>
+        <field name="inherit_id" ref="stock.stock_warehouse_view_search"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='name']" position="after">
+                <separator/>
+                <field name="operating_branch_id"/> 
+                <filter name="operating_branch_id" string="Branch is set" domain="[('operating_branch_id','!=',False)]"/>
+                <filter name="operating_branch_id" string="Branch isn't set" domain="[('operating_branch_id','=',False)]"/>
+                 <group expand="0" string="Group By...">
+                    <filter name="operating_branch_id" string="Branch" context="{'group_by':'operating_branch_id'}"/>
+                </group>
+            </xpath>            
+        </field>
+    </record>
+    <record id="view_stock_warehouse_tree_view_extended_for_operating_branch" model="ir.ui.view">
+        <field name="name">warehouse.tree</field>
+        <field name="model">stock.warehouse</field>
+        <field name="inherit_id" ref="stock.view_warehouse_tree"/>
+        <field name="arch" type="xml">
+            <field name="partner_id" position="after">
+                <field name="operating_branch_id" groups="multi_branches_cft.group_multi_branch"/>
+            </field>
+        </field>
+    </record>
+</odoo>
